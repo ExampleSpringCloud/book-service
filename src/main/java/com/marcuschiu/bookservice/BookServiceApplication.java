@@ -27,9 +27,9 @@ public class BookServiceApplication {
 	}
 
 	@Autowired
-	private DiscoveryClient discoveryClient;
+	DiscoveryClient discoveryClient;
 
-	public List<Book> bookList = Arrays.asList(
+	List<Book> bookList = Arrays.asList(
 			new Book(1L, "Baeldung goes to the market", "Tim Schimandle"),
 			new Book(2L, "Baeldung goes to the park", "Slavisa"),
 			new Book(3L, "Marcus Chiu", "Jesus Book")
@@ -51,8 +51,8 @@ public class BookServiceApplication {
 		return bookList.stream().filter(b -> b.getId().equals(bookId)).findFirst().orElse(null);
 	}
 
-	@RequestMapping("/service-instances/{applicationName}")
+	@GetMapping("/service-instances/{applicationName}")
 	public List<ServiceInstance> serviceInstancesByApplicationName(@PathVariable String applicationName) {
-		return this.discoveryClient.getInstances(applicationName);
+		return discoveryClient.getInstances(applicationName);
 	}
 }

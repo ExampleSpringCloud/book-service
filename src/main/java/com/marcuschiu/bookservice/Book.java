@@ -1,16 +1,15 @@
 package com.marcuschiu.bookservice;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * @AllArgsConstructor - allows new Book(1L, "Baeldung goes to the market", "Tim Schimandle")
+ */
 @Data
+@AllArgsConstructor
 public class Book {
-    private Long id;
-    private String author;
-    private String title;
-
-    public Book(long id, String author, String title) {
-        this.id = id;
-        this.author = author;
-        this.title = title;
-    }
+    Long id;
+    String author;
+    String title;
 }

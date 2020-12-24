@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import java.util.List;
 @EnableEurekaClient
 @RestController
 @RequestMapping("/books")
-@EnableHystrix
 public class BookServiceApplication {
 
 	public static void main(String[] args) {
@@ -37,8 +35,9 @@ public class BookServiceApplication {
 
 	@RequestMapping("/local-service-instance")
 	public String hello() {
-		ServiceInstance localInstance = discoveryClient.getLocalServiceInstance();
-		return localInstance.getServiceId()+":"+localInstance.getHost()+":"+localInstance.getPort();
+		List<ServiceInstance> instances = discoveryClient.getInstances("book-service");
+		ServiceInstance singleInstance = instances.get(0);
+		return singleInstance.getServiceId()+":"+singleInstance.getHost()+":"+singleInstance.getPort();
 	}
 
 	@GetMapping("")
